@@ -1,0 +1,4 @@
+- node version 16.15.0 LTS
+- pnpm
+- vite
+- preact-ts
