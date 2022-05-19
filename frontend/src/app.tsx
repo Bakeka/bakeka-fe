@@ -1,8 +1,7 @@
-import { TileLayer } from "preact-leaflet-ts"
-import CustomMap from './customMap';
-
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
 import "./index.css";
 import "leaflet/dist/leaflet.css";
+import {useCallback, useMemo, useRef, useState} from "preact/compat"
 
 const defaultPosition = {
   lat: 51.505,
@@ -10,26 +9,59 @@ const defaultPosition = {
   zoom: 13
 };
 
+function DraggableMarker() {
+  const [draggable, setDraggable] = useState(false)
+  const [position, setPosition] = useState(defaultPosition)
+  const markerRef = useRef(null)
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current
+        if (marker != null) {
+          setPosition(marker.getLatLng())
+        }
+      },
+    }),
+    [],
+  )
+  const toggleDraggable = useCallback(() => {
+    setDraggable((d) => !d)
+  }, [])
+
+  return (
+    <Marker
+      draggable={draggable}
+      eventHandlers={eventHandlers}
+      position={position}
+      ref={markerRef}>
+      <Popup minWidth={90}>
+        <span onClick={toggleDraggable}>
+          {draggable
+            ? 'Marker is draggable'
+            : 'Click here to make marker draggable'}
+        </span>
+      </Popup>
+    </Marker>
+  )
+}
+
+
+
 export function App() {
   const position: [number, number] = [defaultPosition.lat, defaultPosition.lng];
 
-  const onSelectionCircleAdded = () => console.log("circle added");
-  const onSelectionCircleMoved = () => console.log("circle moved");
-  const onSelectionCircleRemoved = () => console.log("circle removed");
-
   return (
-    <CustomMap
+    <MapContainer
       className="map"
       center={position}
       zoom={defaultPosition.zoom}
-      onSelectionCircleAdded={onSelectionCircleAdded}
-      onSelectionCircleMoved={onSelectionCircleMoved}
-      onSelectionCircleRemoved={onSelectionCircleRemoved}
     >
       <TileLayer  
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       />
-    </CustomMap>
+      <DraggableMarker />
+    </MapContainer>
   );
 }
+

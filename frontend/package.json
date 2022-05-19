@@ -10,7 +10,7 @@
   "dependencies": {
     "leaflet": "^1.8.0",
     "preact": "^10.7.2",
-    "preact-leaflet-ts": "^0.1.8"
+    "react-leaflet": "^4.0.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.2.0",
