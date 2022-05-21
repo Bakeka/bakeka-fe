@@ -1,5 +1,4 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
-import "./index.css";
+import { Marker, Popup } from "react-leaflet"
 import "leaflet/dist/leaflet.css";
 import {useCallback, useMemo, useRef, useState} from "preact/compat"
 
@@ -9,7 +8,7 @@ const defaultPosition = {
   zoom: 13
 };
 
-function DraggableMarker() {
+export function DraggableMarker() {
   const [draggable, setDraggable] = useState(false)
   const [position, setPosition] = useState(defaultPosition)
   const markerRef = useRef(null)
@@ -44,24 +43,3 @@ function DraggableMarker() {
     </Marker>
   )
 }
-
-
-
-export function App() {
-  const position: [number, number] = [defaultPosition.lat, defaultPosition.lng];
-
-  return (
-    <MapContainer
-      className="map"
-      center={position}
-      zoom={defaultPosition.zoom}
-    >
-      <TileLayer  
-      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <DraggableMarker />
-    </MapContainer>
-  );
-}
-
