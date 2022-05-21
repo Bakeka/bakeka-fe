@@ -2,6 +2,7 @@ import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import "./index.css";
 import "leaflet/dist/leaflet.css";
 import { InfoPopup } from "./Components/infoPopup";
+import { Icon } from "leaflet";
 
 const defaultPosition = {
   lat: 51.505,
@@ -48,6 +49,10 @@ const boardsCoordinates = [
   },
 ];
 
+const LeafIcon = Icon.extend({
+  options: {},
+});
+
 export function App() {
   const position: [number, number] = [defaultPosition.lat, defaultPosition.lng];
 
@@ -58,7 +63,7 @@ export function App() {
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       />
       {boardsCoordinates.map((board) => (
-        <Marker position={[board.lat, board.lng]}>
+        <Marker position={[board.lat, board.lng]} icon={getIcon(board.type)}>
           <InfoPopup
             type={board.type}
             material={board.material}
@@ -70,4 +75,34 @@ export function App() {
       ))}
     </MapContainer>
   );
+}
+
+function getIcon(type: string) {
+  if (type === "board1") {
+    return new Icon({
+      iconUrl:
+        "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|fc0339&chf=a,s,ee00FFFF",
+    });
+  }
+
+  if (type === "board2") {
+    return new Icon({
+      iconUrl:
+        "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|3533ab&chf=a,s,ee00FFFF",
+    });
+  }
+
+  if (type === "board3") {
+    return new Icon({
+      iconUrl:
+        "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|e9f030&chf=a,s,ee00FFFF",
+    });
+  }
+
+  if (type === "board4") {
+    return new Icon({
+      iconUrl:
+        "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF",
+    });
+  }
 }
