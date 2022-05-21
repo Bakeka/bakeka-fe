@@ -3,17 +3,19 @@ import "./index.css";
 import "leaflet/dist/leaflet.css";
 import { InfoPopup } from "./Components/infoPopup";
 import { Icon } from "leaflet";
+import { Route } from "wouter-preact";
+import { NewBoard } from "./Components/newBoard";
 
 const defaultPosition = {
-  lat: 51.505,
-  lng: -0.09,
-  zoom: 13,
+  lat: 46.06734,
+  lng: 11.14968,
+  zoom: 19,
 };
 
 const boardsCoordinates = [
   {
-    lat: 51.505,
-    lng: -0.09,
+    lat: 46.06734,
+    lng: 11.14968,
     type: "board1",
     size: "small",
     accessibility: "3",
@@ -49,31 +51,41 @@ const boardsCoordinates = [
   },
 ];
 
-const LeafIcon = Icon.extend({
-  options: {},
-});
-
 export function App() {
   const position: [number, number] = [defaultPosition.lat, defaultPosition.lng];
 
   return (
-    <MapContainer className="map" center={position} zoom={defaultPosition.zoom}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      />
-      {boardsCoordinates.map((board) => (
-        <Marker position={[board.lat, board.lng]} icon={getIcon(board.type)}>
-          <InfoPopup
-            type={board.type}
-            material={board.material}
-            size={board.size}
-            accessibility={board.accessibility}
-            flow={board.flow}
+    <>
+      <Route path="/new">
+        <NewBoard />
+      </Route>
+      <Route path="/">
+        <MapContainer
+          className="map"
+          center={position}
+          zoom={defaultPosition.zoom}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-        </Marker>
-      ))}
-    </MapContainer>
+          {boardsCoordinates.map((board) => (
+            <Marker
+              position={[board.lat, board.lng]}
+              icon={getIcon(board.type)}
+            >
+              <InfoPopup
+                type={board.type}
+                material={board.material}
+                size={board.size}
+                accessibility={board.accessibility}
+                flow={board.flow}
+              />
+            </Marker>
+          ))}
+        </MapContainer>
+      </Route>
+    </>
   );
 }
 

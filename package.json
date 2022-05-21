@@ -10,7 +10,8 @@
   "dependencies": {
     "leaflet": "^1.8.0",
     "preact": "^10.7.2",
-    "react-leaflet": "^4.0.0"
+    "react-leaflet": "^4.0.0",
+    "wouter-preact": "^2.8.0-alpha.2"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.2.0",
