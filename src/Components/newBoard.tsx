@@ -1,18 +1,17 @@
 import { useReducer } from "preact/compat";
 
-type StateType = {
-  count: number;
-};
+const types = ["board1", "board2", "board3", "board4"];
+const material = ["wood", "metal", "glass"];
 
-function reducer(state: StateType, action: string) {
+function reducer(state: number, action: string) {
   switch (action) {
     case "reset":
       return 0;
     case "next":
-      return { count: state.count + 1 };
+      return state + 1;
     case "back":
-      if (state.count > 0) {
-        return { count: state.count - 1 };
+      if (state > 0) {
+        return state - 1;
       }
     default:
       return state;
@@ -20,36 +19,33 @@ function reducer(state: StateType, action: string) {
 }
 
 export function NewBoard() {
-  const [state, dispatch] = useReducer(reducer, { count: 0 });
+  const [state, dispatch] = useReducer(reducer, 0);
 
   return (
     <>
-      {state.count === 0 ? (
+      {state === 0 ? (
         <div class="grid grid-cols-2 gap-4">
-          <button
-            class="px-6 py-2 bg-gray-500 font-medium text-sm hover:bg-gray-600 text-gray-100 rounded"
-            onClick={() => dispatch("next")}
-          >
-            {state.count}
-          </button>
-          <button class="px-6 py-2 bg-blue-500 font-medium text-sm hover:bg-blue-600 text-blue-100 rounded">
-            gianni
-          </button>
-          <button class="px-6 py-2 bg-green-500 font-medium text-sm hover:bg-green-600 text-green-100 rounded">
-            Button
-          </button>
-          <button class="px-6 py-2 bg-indigo-500 font-medium text-sm hover:bg-indigo-600 text-indigo-100 rounded">
-            Button
-          </button>
+          {types.map((type) => {
+            return (
+              <div class="col-span-1">
+                <button
+                  class="px-6 py-2 bg-gray-500 font-medium text-sm hover:bg-gray-600 text-gray-100 rounded"
+                  onClick={() => dispatch("next")}
+                >
+                  {type}
+                </button>
+              </div>
+            );
+          })}
         </div>
       ) : null}
-      {state.count === 1 ? (
+      {state === 1 ? (
         <div class="grid grid-cols-2 gap-4">
           <button
             class="px-6 py-2 bg-gray-500 font-medium text-sm hover:bg-gray-600 text-gray-100 rounded"
             onClick={() => dispatch("next")}
           >
-            {state.count}
+            {state}
           </button>
           <button class="px-6 py-2 bg-blue-500 font-medium text-sm hover:bg-blue-600 text-blue-100 rounded">
             Button
