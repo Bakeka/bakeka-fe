@@ -1,6 +1,4 @@
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
-import "./index.css";
-import "leaflet/dist/leaflet.css";
 import { InfoPopup } from "./Components/infoPopup";
 import { Icon } from "leaflet";
 import { Route } from "wouter-preact";

@@ -1,12 +1,21 @@
 import { defineConfig } from 'windicss/helpers'
-import formsPlugin from 'windicss/plugin/forms'
-import typography from 'windicss/plugin/typography'
-import colors from 'windicss/colors'
+import typography from 'windicss/plugin/typography/'
 
 export default defineConfig({
   darkMode: 'class',
+  plugins: [
+    typography
+  ],
   extract: {
-    include: ['./**/*.html'],
+    include: [
+      'index.html',
+      './**/*.html',
+      './**/*.tsx'
+    ],
+    exclude: [
+      'node_modules/**/*',
+      '.git/**/*',
+    ]
   },
   safelist: 'p-3 p-4 p-5',
   theme: {
@@ -18,8 +27,4 @@ export default defineConfig({
       },
     },
   },
-  plugins: [
-    formsPlugin,
-    typography
-  ],
 })
