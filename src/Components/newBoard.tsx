@@ -17,14 +17,6 @@ let newBoard: board = {
   material: "",
 };
 
-// lat: number;
-// lng: number;
-// type: string;
-// size: string;
-// accessibility: string;
-// flow: string;
-// material: string;
-
 function reducer(state: number, action: string) {
   switch (action) {
     case "reset":
@@ -162,12 +154,22 @@ export function NewBoard() {
         </div>
       ) : null}
 
-      <button
-        class="px-6 py-2 my-4 bg-blue-500 font-medium text-sm hover:bg-blue-600 text-blue-100 rounded"
-        onClick={() => dispatch("back")}
-      >
-        Back
-      </button>
+      {state != 0 ? (
+        <div>
+          <button
+            class="px-6 py-2 mr-8 my-4 bg-blue-500 font-medium text-sm hover:bg-blue-600 text-blue-100 rounded"
+            onClick={() => dispatch("back")}
+          >
+            Back
+          </button>
+          <button
+            class="px-6 py-2 my-4 bg-red-500 font-medium text-sm hover:bg-red-600 text-red-100 rounded"
+            onClick={() => dispatch("reset")}
+          >
+            Reset
+          </button>
+        </div>
+      ) : null}
     </>
   );
 }
