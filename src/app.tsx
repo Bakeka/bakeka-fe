@@ -10,7 +10,17 @@ const defaultPosition = {
   zoom: 19,
 };
 
-const boardsCoordinates = [
+export interface board {
+  lat: number;
+  lng: number;
+  type: string;
+  size: string;
+  accessibility: string;
+  flow: string;
+  material: string;
+}
+
+const boardsCoordinates: board[] = [
   {
     lat: 46.06734,
     lng: 11.14968,
