@@ -1,7 +1,7 @@
 import { Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-export function InfoPopup(props) {
+export function InfoPopup(props: any) {
   return (
     <Popup minWidth={90}>
       <ul>

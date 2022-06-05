@@ -1,8 +1,8 @@
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
-import { InfoPopup } from "./Components/infoPopup";
+import { InfoPopup } from "./components/infoPopup";
 import { Icon } from "leaflet";
 import { Route } from "wouter-preact";
-import { NewBoard } from "./Components/newBoard";
+import { NewBoard } from "./components/newBoard";
 
 const defaultPosition = {
   lat: 46.06734,
