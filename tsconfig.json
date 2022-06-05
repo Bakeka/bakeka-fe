@@ -15,8 +15,8 @@
     "incremental": true,
     "target": "es6",
     "module": "commonjs",
-    "outDir": "build",
-    "tsBuildInfoFile": "build/.tsbuildinfo",
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
     /* Strict Type-Checking Options */
     "strict": true,
     "noImplicitAny": true,
@@ -45,6 +45,7 @@
     "allowSyntheticDefaultImports": true,
   },
   "exclude": [
-    "node_modules"
+    "node_modules/",
+    "build/"
   ]
 }
