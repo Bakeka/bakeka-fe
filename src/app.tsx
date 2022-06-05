@@ -1,8 +1,10 @@
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import { InfoPopup } from "./Components/infoPopup";
-import { Icon } from "leaflet";
+import { Icon, Map } from "leaflet";
 import { Route } from "wouter-preact";
 import { NewBoard } from "./Components/newBoard";
+import Search from "./Components/filterBoard";
+import { OpenStreetMapProvider } from "react-leaflet-geosearch";
 
 const defaultPosition = {
   lat: 46.06734,
@@ -61,6 +63,8 @@ const boardsCoordinates: board[] = [
 
 export function App() {
   const position: [number, number] = [defaultPosition.lat, defaultPosition.lng];
+  const prov = new OpenStreetMapProvider();
+  //const map = new Map("map");
 
   return (
     <>
@@ -77,6 +81,7 @@ export function App() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
+
           {boardsCoordinates.map((board) => (
             <Marker
               position={[board.lat, board.lng]}
@@ -91,6 +96,18 @@ export function App() {
               />
             </Marker>
           ))}
+          <Search
+            provider={prov}
+            showMarker={true}
+            showPopup={false}
+            popupFormat={({ query, result }) => result.label}
+            maxMarkers={3}
+            retainZoomLevel={false}
+            animateZoom={true}
+            autoClose={false}
+            searchLabel={"Enter address, please"}
+            keepResult={true}
+          />
         </MapContainer>
       </Route>
     </>
