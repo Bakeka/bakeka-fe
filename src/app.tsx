@@ -3,6 +3,7 @@ import { InfoPopup } from "./components/infoPopup";
 import { Icon } from "leaflet";
 import { Route } from "wouter-preact";
 import { NewBoard } from "./components/newBoard";
+import { getBoard } from "./services/api";
 
 const defaultPosition = {
   lat: 46.06734,
@@ -61,6 +62,9 @@ const boardsCoordinates: board[] = [
 
 export function App() {
   const position: [number, number] = [defaultPosition.lat, defaultPosition.lng];
+
+  console.log(getBoard("629e44064db6cf0df88bbbe0"))
+
 
   return (
     <>
