@@ -98,10 +98,8 @@ export function App() {
           ))}
           <Search
             provider={prov}
-            showMarker={true}
+            showMarker={false}
             showPopup={false}
-            popupFormat={({ query, result }) => result.label}
-            maxMarkers={3}
             retainZoomLevel={false}
             animateZoom={true}
             autoClose={false}
