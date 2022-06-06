@@ -1,4 +1,7 @@
-
+.map {
+  width: 100vw;
+  height: 90vh;
+}
 
 html,
 body {
@@ -16,23 +19,4 @@ body {
 
 * {
   box-sizing: border-box;
-}
-
-#app {
-  height: 100%;
-  text-align: center;
-  background-color: #673ab8;
-  color: #fff;
-  font-size: 1.5em;
-  padding-top: 100px;
-}
-
-.link {
-  color: #fff;
-}
-
-.map {
-  width: calc(100vw - 18px);
-  height: calc(100vh - 18px);
-  border: 1px solid black;
 }
