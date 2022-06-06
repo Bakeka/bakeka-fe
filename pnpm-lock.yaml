@@ -2,12 +2,14 @@ lockfileVersion: 5.4
 
 specifiers:
   '@preact/preset-vite': ^2.2.0
+  '@tabler/icons': ^1.68.0
   '@types/leaflet': ^1.7.10
   '@windicss/plugin-animations': ^1.0.9
   leaflet: 1.7.1
   leaflet-geosearch: 3.2.1
   preact: ^10.7.2
   react-leaflet: 3.1.0
+  react-leaflet-custom-control: 1.2.2
   react-leaflet-geosearch: 0.3.0
   typescript: ^4.6.4
   vite: ^2.9.9
@@ -16,10 +18,12 @@ specifiers:
   wouter-preact: ^2.8.0-alpha.2
 
 dependencies:
+  '@tabler/icons': 1.68.0
   leaflet: 1.7.1
   leaflet-geosearch: 3.2.1
   preact: 10.7.3
   react-leaflet: 3.1.0_leaflet@1.7.1
+  react-leaflet-custom-control: 1.2.2_leaflet@1.7.1
   react-leaflet-geosearch: 0.3.0_leaflet@1.7.1
   wouter-preact: 2.8.0-alpha.2_preact@10.7.3
 
@@ -412,6 +416,18 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
     dev: true
+
+  /@tabler/icons/1.68.0:
+    resolution: {integrity: sha512-UseBEEhv7r+Drl3iZih7rkwqkfJJZscjd5ZvK1WdIIulQsBa+qE8WBDGdAO0RtjkCclEK88z9kC0s5wiVPIvkw==}
+    peerDependencies:
+      react: ^16.x || 17.x
+      react-dom: ^16.x || 17.x
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dev: false
 
   /@types/geojson/7946.0.8:
     resolution: {integrity: sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==}
@@ -971,6 +987,16 @@ packages:
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+    dev: false
+
+  /react-leaflet-custom-control/1.2.2_leaflet@1.7.1:
+    resolution: {integrity: sha512-gB0gXM8JJjCWJvMAhBYc2MmmDBsu1+DRCXtPijaeHmL8k0yFfv9AOnyCGuuDitptB3pfNfxAhaUb6gjim9OwUA==}
+    peerDependencies:
+      leaflet: ^1.7.1
+      react: ^17.0.2
+      react-dom: ^17.0.2
+    dependencies:
+      leaflet: 1.7.1
     dev: false
 
   /react-leaflet-geosearch/0.3.0_leaflet@1.7.1:

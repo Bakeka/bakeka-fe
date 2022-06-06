@@ -5,6 +5,8 @@ import { Route } from "wouter-preact";
 import { NewBoard } from "./Components/newBoard";
 import Search from "./Components/filterBoard";
 import { OpenStreetMapProvider } from "react-leaflet-geosearch";
+import Control from "react-leaflet-custom-control";
+import { IconAward } from "@tabler/icons";
 
 const defaultPosition = {
   lat: 46.06734,
@@ -81,7 +83,11 @@ export function App() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-
+          <Control position="topright">
+            <button class="px-5 pt-2 bg-indigo-500 font-medium text-lg hover:bg-indigo-600 text-indigo-100 rounded">
+              <IconAward />
+            </button>
+          </Control>
           {boardsCoordinates.map((board) => (
             <Marker
               position={[board.lat, board.lng]}
