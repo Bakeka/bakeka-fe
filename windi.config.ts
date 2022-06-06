@@ -1,28 +1,28 @@
-import { defineConfig } from 'windicss/helpers'
-import typography from 'windicss/plugin/typography/'
+import { defineConfig } from "windicss/helpers"
+import typography from "windicss/plugin/typography"
 
 export default defineConfig({
-  darkMode: 'class',
+  darkMode: "class",
   plugins: [
-    typography
+    typography()
   ],
   extract: {
     include: [
-      'index.html',
-      './**/*.html',
-      './**/*.tsx'
+      "index.html",
+      "./**/*.html",
+      "./**/*.tsx"
     ],
     exclude: [
-      'node_modules/**/*',
-      '.git/**/*',
+      "node_modules/**/*",
+      ".git/**/*",
     ]
   },
-  safelist: 'p-3 p-4 p-5',
+  safelist: "p-3 p-4 p-5",
   theme: {
     extend: {
       colors: {
         teal: {
-          100: '#096',
+          100: "#096",
         },
       },
     },

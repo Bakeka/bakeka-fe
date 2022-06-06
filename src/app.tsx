@@ -1,4 +1,7 @@
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import { Route } from "wouter-preact";
+import { NewBoard } from "./components/newBoard";
+import { getBoard } from "./services/api";
 import { InfoPopup } from "./Components/infoPopup";
 import { Icon, Map } from "leaflet";
 import { Route } from "wouter-preact";
@@ -68,6 +71,9 @@ export function App() {
   const prov = new OpenStreetMapProvider();
   //const map = new Map("map");
 
+  console.log(getBoard("629e44064db6cf0df88bbbe0"))
+
+
   return (
     <>
       <Route path="/new">
@@ -120,32 +126,32 @@ export function App() {
   );
 }
 
-function getIcon(type: string) {
-  if (type === "board1") {
-    return new Icon({
-      iconUrl:
-        "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|fc0339&chf=a,s,ee00FFFF",
-    });
+function getIcon(type: string): Icon | undefined {
+  switch (type) {
+    case "board1":
+      return new Icon({
+        iconUrl:
+          "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|fc0339&chf=a,s,ee00FFFF",
+      });
+    
+    case "board2":
+      return new Icon({
+        iconUrl:
+          "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|3533ab&chf=a,s,ee00FFFF",
+      });
+
+    case "board3":
+      return new Icon({
+        iconUrl:
+          "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|e9f030&chf=a,s,ee00FFFF",
+      });
+
+    case "board4":
+      return new Icon({
+        iconUrl:
+          "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF",
+      });
   }
 
-  if (type === "board2") {
-    return new Icon({
-      iconUrl:
-        "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|3533ab&chf=a,s,ee00FFFF",
-    });
-  }
-
-  if (type === "board3") {
-    return new Icon({
-      iconUrl:
-        "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|e9f030&chf=a,s,ee00FFFF",
-    });
-  }
-
-  if (type === "board4") {
-    return new Icon({
-      iconUrl:
-        "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF",
-    });
-  }
+  return undefined
 }
