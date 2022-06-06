@@ -1,7 +1,7 @@
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
-import { InfoPopup } from "./components/infoPopup";
 import { Icon } from "leaflet";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import { Route } from "wouter-preact";
+import { InfoPopup } from "./components/infoPopup";
 import { NewBoard } from "./components/newBoard";
 import { getBoard } from "./services/api";
 

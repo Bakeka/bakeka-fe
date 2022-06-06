@@ -1,7 +1,7 @@
 import { IconBackspace, IconChevronLeft } from "@tabler/icons";
 import { useReducer, useState } from "preact/compat";
-import { ButtonData, IconButton } from "./iconButton";
-import { Accessibility, Material, Size, Type } from "../entities";
+import { BoardFragment, ButtonData, IconButton } from "./iconButton";
+import { Accessibility, Board, Material, Size, Type } from "../entities";
 
 enum BoardAction {
   RESET,
@@ -14,7 +14,8 @@ const buttons: ButtonData[][] = [
     return {
       name: type,
       data: {
-        "type": type
+        key: "type",
+        value: type
       }
     }
   }),
@@ -23,7 +24,8 @@ const buttons: ButtonData[][] = [
     return {
       name: material,
       data: {
-        "material": material
+        key: "material",
+        value: material
       }
     }
   }),
@@ -32,7 +34,8 @@ const buttons: ButtonData[][] = [
     return {
       name: accessibility,
       data: {
-        "accessibility": accessibility
+        key: "accessibility",
+        value: accessibility
       }
     }
   }),
@@ -41,7 +44,8 @@ const buttons: ButtonData[][] = [
     return {
       name: size,
       data: {
-        "size": size
+        key: "size",
+        value: size
       }
     }
   }),
@@ -50,7 +54,8 @@ const buttons: ButtonData[][] = [
     return {
       name: traffic.toString(),
       data: {
-        "traffic": traffic
+        key: "traffic",
+        value: traffic
       }
     }
   }),
@@ -76,7 +81,7 @@ function reducerWithCap(cap: number) {
 }
 
 export function NewBoard() {
-  const strings: string[] = [
+  const titles: string[] = [
     "Type",
     "Material",
     "Accessibility",
@@ -84,7 +89,7 @@ export function NewBoard() {
     "Traffic"
   ]
 
-  const maxPage = strings.length-1
+  const maxPage = titles.length - 1
 
   const baseButtonsState = Array.from({ length: maxPage }, () => "")
 
@@ -92,31 +97,69 @@ export function NewBoard() {
 
   const [selected, setSelected] = useState(baseButtonsState)
 
-  const handleButtonSelect = (data: any, key: string) => {
+  const [finalObject, setFinalObject] = useState({} as Board)
+
+  const handleButtonSelect = (data: BoardFragment, key: string) => {
     console.log(data)
-    console.log(state)
     setSelected(prevSelected => {
       prevSelected[state] = key
-      console.log(prevSelected)
       return prevSelected
     })
-    dispatch(BoardAction.NEXT)
+    setFinalObject(prev => {
+      prev[data.key] = data.value
+      return prev
+    })
+    setTimeout(() => dispatch(BoardAction.NEXT), 600)
+  }
+
+  const handleConfirm = () => {
+    const geo: Geolocation = navigator.geolocation
+    geo.getCurrentPosition(position => {
+      setFinalObject(prev => {
+        prev.modified = new Date(position.timestamp)
+        prev.location = {
+          type: "Point",
+          coordinates: [
+            position.coords.longitude,
+            position.coords.latitude
+          ]
+        }
+        return prev
+      })
+      console.log(finalObject)
+    }, reset) 
+    // ^^^ reset if the user does not allow geolocation
+  }
+
+  const reset = () => {
+    setSelected(() => baseButtonsState)
+    dispatch(BoardAction.RESET)
   }
 
   return (
     <>
-      <h1 class="mb-16">{strings[state]}</h1>
+      <h1 class="my-16 <md:mb-12 font-bold text-3xl">{titles[state]}</h1>
       <div className="container mx-auto px-4 <md:grid <md:grid-cols-2 <md:gap-4 justify-items-center">
         {buttons[state].map((data, index) => {
           const key: string = `${state}_${index}`
-          // FIXME: going back retains selected buttons
-          return <IconButton data={data} buttonId={key} selected={selected[state] === key} onButtonSelected={handleButtonSelect} />
+          return <IconButton data={data} key={key} buttonId={key} selected={selected[state] === key} onButtonSelected={handleButtonSelect} />
         })}
       </div>
-      <div class="mt-16">
+      <div class="mt-16 container mx-auto grid grid-cols-2 grid-rows-2 gap-4 md:px-128 <md:px-16">
+        {(state == maxPage) &&
+          <button 
+            className={`
+              col-span-full px-6 py-2 font-medium text-sm bg-blue-600 hover:bg-blue-500 text-light-200 rounded
+              ${(selected.find(s => s === "")) && "invisible"}
+            `}
+            onClick={handleConfirm}
+          >
+            Conferma
+          </button>
+        }
         <button
           className={`
-            px-6 py-2 mr-8 font-medium text-sm bg-light-400 hover:bg-light-500 text-red-600 rounded
+            px-6 py-2 font-medium text-sm bg-light-400 hover:bg-light-500 text-red-600 rounded
             ${state === 0 ? "invisible" : ""}
           `}
           title="Back"
@@ -127,10 +170,7 @@ export function NewBoard() {
         <button
           class="px-6 py-2 font-medium text-sm bg-light-400 hover:bg-light-500 text-blue-600 rounded"
           title="Reset"
-          onClick={() => {
-            setSelected(() => baseButtonsState)
-            dispatch(BoardAction.RESET)
-          }}
+          onClick={reset}
         >
           <IconBackspace />
         </button>
