@@ -122,7 +122,7 @@ export function Map() {
         </div>
       </Control>
 
-      <Control position="bottomright">
+      <Control position="topright">
         <FilterBoard onChange={handleCheckbox} />
       </Control>
 
