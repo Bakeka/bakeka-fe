@@ -1,6 +1,6 @@
 import { Board, Filter, Numbers } from '../entities';
 
-const BASE_URL = 'http://localhost:8080/api/v1';
+const BASE_URL = import.meta.env.VITE_BACKEND_ADDR;
 
 export async function getBoard(boardId: String): Promise<Board> {
   const url = `${BASE_URL}/boards/${boardId}`;

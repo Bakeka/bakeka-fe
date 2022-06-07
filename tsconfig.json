@@ -14,7 +14,7 @@
     "declaration": true,
     "incremental": true,
     "target": "es6",
-    "module": "commonjs",
+    "module": "ES2020",
     "outDir": "dist",
     "tsBuildInfoFile": "dist/.tsbuildinfo",
     /* Strict Type-Checking Options */
