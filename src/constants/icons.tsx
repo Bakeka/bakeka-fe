@@ -70,7 +70,7 @@ function tablerToLeaflet(icon: TablerIcon, classes?: string, props?: TablerIconP
   const IconNode = icon
 
   return divIcon({
-    className: `bg-white rounded-full min-w-7 min-h-7 border-2 border-dark-900 ${classes}`,
+    className: `rounded-full min-w-7 min-h-7 border-2 border-dark-900 ${classes}`,
     html: render(<IconNode {...props} />)
   })
 }

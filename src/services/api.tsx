@@ -1,4 +1,4 @@
-import { Board, Filter } from '../entities';
+import { Board, Filter, Numbers } from '../entities';
 
 const BASE_URL = 'http://localhost:8080/api/v1';
 
@@ -50,4 +50,20 @@ export async function filterBoards(filter: Filter): Promise<Board[]> {
     throw "Error filtering boards";
 
   return response.json().then(parsed => parsed as Board[]);
+}
+
+export async function getNumbers(): Promise<Numbers> {
+  const url = `${BASE_URL}/boards/numbers`;
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Accept": "application/json",
+    }
+  });
+
+  if (!response.ok)
+    throw "Error fetching numbers";
+
+  return response.json().then(parsed => parsed as Numbers);
 }
