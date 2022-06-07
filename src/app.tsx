@@ -6,7 +6,7 @@ export function App() {
   return (
     <>
       <Route path="/new/:boardId">
-        {params => <NewBoard boardId={params.boardId} />}
+        {(params: any) => <NewBoard boardId={params.boardId || ""} />}
       </Route>
       <Route path="/">
         <Map />

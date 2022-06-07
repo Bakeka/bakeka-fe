@@ -1,10 +1,9 @@
 import { useEffect, useState } from "preact/hooks"
-import { toTitleCase } from "../utils"
 import { ButtonIcons } from "../constants/icons"
-import { Board } from "../entities"
+import { toTitleCase } from "../utils"
 
 export interface BoardFragment {
-  key: keyof Board
+  key: string
   value: any
 }
 

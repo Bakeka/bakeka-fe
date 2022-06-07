@@ -18,14 +18,14 @@
     "outDir": "dist",
     "tsBuildInfoFile": "dist/.tsbuildinfo",
     /* Strict Type-Checking Options */
-    "strict": false,
+    "strict": true,
     "noImplicitAny": false,
     "strictNullChecks": false,
     "strictFunctionTypes": false,
     "strictBindCallApply": false,
     "strictPropertyInitialization": false,
     "noImplicitThis": false,
-    "alwaysStrict": false,
+    "alwaysStrict": true,
     "allowJs": false,
     /* Additional Checks */
     "noUnusedLocals": true,
