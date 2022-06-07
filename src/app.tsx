@@ -1,15 +1,14 @@
+import { IconMapPin } from "@tabler/icons";
+import { Icon } from "leaflet";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
-import { Route } from "wouter-preact";
-import { NewBoard } from "./components/newBoard";
-import { getBoard } from "./services/api";
-import { InfoPopup } from "./Components/infoPopup";
-import { Icon, Map } from "leaflet";
-import { Route } from "wouter-preact";
-import { NewBoard } from "./Components/newBoard";
-import Search from "./Components/filterBoard";
-import { OpenStreetMapProvider } from "react-leaflet-geosearch";
 import Control from "react-leaflet-custom-control";
-import { IconAward } from "@tabler/icons";
+import { OpenStreetMapProvider } from "react-leaflet-geosearch";
+import { Route } from "wouter-preact";
+import Search from "./components/searchButton";
+import { InfoPopup } from "./components/infoPopup";
+import { NewBoard } from "./components/newBoard";
+import { getBoard, getBoards } from "./services/api";
+import { FilterBoard } from "./components/filterBoards";
 
 const defaultPosition = {
   lat: 46.06734,
@@ -26,6 +25,8 @@ export interface board {
   flow: string;
   material: string;
 }
+
+//const boardsCoordinates = getBoards({});
 
 const boardsCoordinates: board[] = [
   {
@@ -69,10 +70,8 @@ const boardsCoordinates: board[] = [
 export function App() {
   const position: [number, number] = [defaultPosition.lat, defaultPosition.lng];
   const prov = new OpenStreetMapProvider();
-  //const map = new Map("map");
 
-  console.log(getBoard("629e44064db6cf0df88bbbe0"))
-
+  console.log(getBoard("629e44064db6cf0df88bbbe0"));
 
   return (
     <>
@@ -90,9 +89,15 @@ export function App() {
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
           <Control position="topright">
-            <button class="px-5 pt-2 bg-indigo-500 font-medium text-lg hover:bg-indigo-600 text-indigo-100 rounded">
-              <IconAward />
+            <button
+              class="px-2 pt-2 bg-indigo-500 font-medium text-lg hover:bg-indigo-600 text-indigo-100 rounded-4xl"
+              onClick={() => FlyToUserLocation()}
+            >
+              <IconMapPin />
             </button>
+          </Control>
+          <Control position="bottomright">
+            <FilterBoard />
           </Control>
           {boardsCoordinates.map((board) => (
             <Marker
@@ -133,7 +138,7 @@ function getIcon(type: string): Icon | undefined {
         iconUrl:
           "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|fc0339&chf=a,s,ee00FFFF",
       });
-    
+
     case "board2":
       return new Icon({
         iconUrl:
@@ -153,5 +158,9 @@ function getIcon(type: string): Icon | undefined {
       });
   }
 
-  return undefined
+  return undefined;
+}
+
+function FlyToUserLocation() {
+  //TODO: get the current position
 }
