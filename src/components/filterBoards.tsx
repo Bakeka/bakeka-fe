@@ -1,4 +1,5 @@
 import { Checkbox, useCheckboxState } from "pretty-checkbox-react";
+import "pretty-checkbox";
 import { Accessibility, Material, Size, Type } from "../entities";
 
 export function FilterBoard() {
@@ -48,16 +49,19 @@ export function FilterBoard() {
   ];
 
   return (
-    <>
+    <div className="bg-white-500 rounded-2xl">
       {entities.map((entity, i) => {
         return (
-          <div className="flex inline-flex flex-row bg-indigo-300 m-2 rounded-2xl">
-            <b className="mx-2 my-1">{strings[i]}:</b>
+          <div className="flex flex-col bg-indigo-300 m-2 rounded-xl">
+            <b className="mx-1 my-1">{strings[i]}:</b>
             {entity.map((data) => {
               return (
                 <Checkbox
+                  bigger
+                  shape="rounded"
+                  variant="thick"
                   {...data.value}
-                  className="flex inline-flex flex-row mx-2 my-1"
+                  className="flex inline-flex flex-row ml-2 my-2"
                 >
                   <span className="ml-1">{data.name}</span>
                 </Checkbox>
@@ -66,6 +70,6 @@ export function FilterBoard() {
           </div>
         );
       })}
-    </>
+    </div>
   );
 }
