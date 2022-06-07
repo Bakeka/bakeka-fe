@@ -95,7 +95,7 @@ export function Map() {
 
   return (
     <MapContainer
-      className="map border-none"
+      className="map"
       center={position}
       zoom={defaultPosition.zoom}
       minZoom={3}
