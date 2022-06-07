@@ -70,8 +70,6 @@ export function Map() {
         <button class="px-2 pt-2 bg-indigo-500 font-medium text-lg hover:bg-indigo-600 text-indigo-100 rounded-4xl">
           <IconMapPin />
         </button>
-      </Control>
-      <Control position="bottomright">
         <FilterBoard />
       </Control>
       <Search
