@@ -2,10 +2,6 @@ import { Checkbox, useCheckboxState } from "pretty-checkbox-react";
 import { Accessibility, Material, Size, Type } from "../entities";
 
 const entities = [
-  Object.keys(Type).map((type) => {
-    return { name: type };
-  }),
-
   Object.keys(Material).map((material) => {
     return { name: material };
   }),
@@ -24,15 +20,17 @@ const entities = [
 ];
 
 export function FilterBoard() {
-  const checkbox = useCheckboxState();
+  const types = Object.keys(Type).map((type) => {
+    return {
+      name: type,
+      value: useCheckboxState(),
+    };
+  });
 
   return (
     <>
-      {entities[0].map((entity) => {
-        <Checkbox {...checkbox}>{entity.name}</Checkbox>;
-        {
-          console.log(entity.name);
-        }
+      {types.map((entity) => {
+        return <Checkbox {...entity.value}>{entity.name}</Checkbox>;
       })}
     </>
   );
