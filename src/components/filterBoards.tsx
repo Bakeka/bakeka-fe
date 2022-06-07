@@ -51,8 +51,8 @@ export function FilterBoard() {
     <>
       {entities.map((entity, i) => {
         return (
-          <div className="flex inline-flex flex-row bg-indigo-300 m-2 rounded">
-            <b className="mx-1 my-1">{strings[i]}:</b>
+          <div className="flex inline-flex flex-row bg-indigo-300 m-2 rounded-2xl">
+            <b className="mx-2 my-1">{strings[i]}:</b>
             {entity.map((data) => {
               return (
                 <Checkbox
