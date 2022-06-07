@@ -1,8 +1,8 @@
 import { Checkbox, useCheckboxState } from "pretty-checkbox-react";
-import "pretty-checkbox";
-import { Accessibility, Material, Size, Type } from "../entities";
+import { Accessibility, Board, Material, Size, Type } from "../entities";
+import { toTitleCase } from "../utils";
 
-export function FilterBoard() {
+export function FilterBoard(props: { onChange: (patch: Partial<Board>) => void }) {
   const strings: string[] = [
     "Type",
     "Material",
@@ -11,49 +11,56 @@ export function FilterBoard() {
     "Traffic",
   ];
 
+  const handleChange = (patch: Partial<Board>) => {
+    return () => {
+      // const target = e.target as HTMLInputElement
+      props.onChange(patch)
+    }
+  }
+
   const entities = [
     Object.keys(Type).map((type) => {
       return {
-        name: type,
-        value: useCheckboxState(),
+        name: toTitleCase(type),
+        value: useCheckboxState({ onChange: handleChange({ type: type as Type }) }),
       };
     }),
 
     Object.keys(Material).map((material) => {
       return {
-        name: material,
-        value: useCheckboxState(),
+        name: toTitleCase(material),
+        value: useCheckboxState({ onChange: handleChange({ material: material as Material }) }),
       };
     }),
 
     Object.keys(Accessibility).map((accessibility) => {
       return {
-        name: accessibility,
-        value: useCheckboxState(),
+        name: toTitleCase(accessibility),
+        value: useCheckboxState({ onChange: handleChange({ accessibility: accessibility as Accessibility }) }),
       };
     }),
 
     Object.keys(Size).map((size) => {
       return {
-        name: size,
-        value: useCheckboxState(),
+        name: toTitleCase(size),
+        value: useCheckboxState({ onChange: handleChange({ size: size as Size }) }),
       };
     }),
 
     Array.from({ length: 5 }, (_, i: number) => i + 1).map((traffic) => {
       return {
         name: traffic.toString(),
-        value: useCheckboxState(),
+        value: useCheckboxState({ onChange: handleChange({ traffic: traffic }) }),
       };
     }),
   ];
 
   return (
-    <div className="bg-white-500 rounded-2xl">
+    <>
       {entities.map((entity, i) => {
         return (
-          <div className="flex flex-col bg-indigo-300 m-2 rounded-xl">
-            <b className="mx-1 my-1">{strings[i]}:</b>
+          <div className="flex flex-col bg-light-50 m-2 py-2 px-2 rounded-xl select-none shadow-xl">
+            <b className="mx-1 my-1">{strings[i]}</b>
             {entity.map((data) => {
               return (
                 <Checkbox
@@ -61,15 +68,15 @@ export function FilterBoard() {
                   shape="rounded"
                   variant="thick"
                   {...data.value}
-                  className="flex inline-flex flex-row ml-2 my-2"
+                  className="flex inline-flex flex-row mr-2 my-1"
                 >
-                  <span className="ml-1">{data.name}</span>
+                  <span className="ml-1 select-none">{data.name}</span>
                 </Checkbox>
               );
             })}
           </div>
         );
       })}
-    </div>
+    </>
   );
 }

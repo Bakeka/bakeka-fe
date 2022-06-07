@@ -156,7 +156,6 @@ export function NewBoard(props: { boardId: string }) {
         return prev
       })
 
-      console.log(finalObject)
       updateBoard(props.boardId, finalObject)
     }, reset)
     // ^^^ reset if the user does not allow geolocation

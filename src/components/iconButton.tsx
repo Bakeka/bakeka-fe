@@ -24,8 +24,6 @@ export function IconButton(props: {
 
   useEffect(() => setSelected(props.selected), [props.selected])
 
-  // if (selected) console.log("selected")
-
   const Icon = ButtonIcons.get(props.name) || ButtonIcons.get("OTHER")
 
   return <button
