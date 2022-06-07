@@ -1,6 +1,6 @@
-import { useState } from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 import { toTitleCase } from "../utils"
-import { IconMap } from "../iconMap"
+import { ButtonIcons } from "../constants/icons"
 import { Board } from "../entities"
 
 export interface BoardFragment {
@@ -10,14 +10,23 @@ export interface BoardFragment {
 
 export interface ButtonData {
   name: string
+  selected: boolean
+  id: string
   data: BoardFragment
 }
 
-export function IconButton(props: { data: ButtonData, buttonId: string, selected?: boolean, onButtonSelected?: (data: any, key: string) => void }) {
+export function IconButton(props: {
+  name: string,
+  selected: boolean,
+  onClick: () => void
+}) {
   const [selected, setSelected] = useState(false)
-  if (props.selected) setSelected(() => true)
-  
-  const Icon = IconMap.get(props.data.name) || IconMap.get("OTHER")
+
+  useEffect(() => setSelected(props.selected), [props.selected])
+
+  // if (selected) console.log("selected")
+
+  const Icon = ButtonIcons.get(props.name) || ButtonIcons.get("OTHER")
 
   return <button
     className={`
@@ -27,11 +36,11 @@ export function IconButton(props: { data: ButtonData, buttonId: string, selected
     autoComplete="off"
     onClick={() => {
       setSelected(!selected)
-      if (!selected && props.onButtonSelected)
-        props.onButtonSelected(props.data.data, props.buttonId)
+      if (!selected)
+        props.onClick()
     }}
   >
     <Icon size={64} />
-    <p class="md:mt-8 <md:mt-4">{toTitleCase(props.data.name)}</p>
+    <p class="md:mt-8 <md:mt-4">{toTitleCase(props.name)}</p>
   </button>
 }

@@ -1,7 +1,8 @@
-import { IconBackspace, IconChevronLeft } from "@tabler/icons";
-import { useReducer, useState } from "preact/compat";
-import { BoardFragment, ButtonData, IconButton } from "./iconButton";
+import { IconBackspace, IconChevronLeft, IconChevronRight } from "@tabler/icons";
+import { useEffect, useReducer, useState } from "preact/compat";
 import { Accessibility, Board, Material, Size, Type } from "../entities";
+import { updateBoard } from "../services/api";
+import { ButtonData, IconButton } from "./iconButton";
 
 enum BoardAction {
   RESET,
@@ -9,10 +10,12 @@ enum BoardAction {
   BACK
 }
 
-const buttons: ButtonData[][] = [
-  Object.keys(Type).map(type => {
+const buttonData: ButtonData[][] = [
+  Object.keys(Type).map((type, index) => {
     return {
       name: type,
+      id: `type_${index}`,
+      selected: false,
       data: {
         key: "type",
         value: type
@@ -20,9 +23,11 @@ const buttons: ButtonData[][] = [
     }
   }),
 
-  Object.keys(Material).map(material => {
+  Object.keys(Material).map((material, index) => {
     return {
       name: material,
+      id: `material_${index}`,
+      selected: false,
       data: {
         key: "material",
         value: material
@@ -30,9 +35,11 @@ const buttons: ButtonData[][] = [
     }
   }),
 
-  Object.keys(Accessibility).map(accessibility => {
+  Object.keys(Accessibility).map((accessibility, index) => {
     return {
       name: accessibility,
+      id: `access_${index}`,
+      selected: false,
       data: {
         key: "accessibility",
         value: accessibility
@@ -40,9 +47,11 @@ const buttons: ButtonData[][] = [
     }
   }),
 
-  Object.keys(Size).map(size => {
+  Object.keys(Size).map((size, index) => {
     return {
       name: size,
+      id: `size_${index}`,
+      selected: false,
       data: {
         key: "size",
         value: size
@@ -53,6 +62,8 @@ const buttons: ButtonData[][] = [
   Array.from({ length: 5 }, (_, i: number) => i + 1).map(traffic => {
     return {
       name: traffic.toString(),
+      id: `traffic_${traffic}`,
+      selected: false,
       data: {
         key: "traffic",
         value: traffic
@@ -80,7 +91,7 @@ function reducerWithCap(cap: number) {
   }
 }
 
-export function NewBoard() {
+export function NewBoard(props: { boardId: string }) {
   const titles: string[] = [
     "Type",
     "Material",
@@ -91,28 +102,46 @@ export function NewBoard() {
 
   const maxPage = titles.length - 1
 
-  const baseButtonsState = Array.from({ length: maxPage }, () => "")
-
-  const [state, dispatch] = useReducer(reducerWithCap(maxPage), 0);
-
-  const [selected, setSelected] = useState(baseButtonsState)
+  const [pagination, dispatch] = useReducer(reducerWithCap(maxPage), 0);
 
   const [finalObject, setFinalObject] = useState({} as Board)
 
-  const handleButtonSelect = (data: BoardFragment, key: string) => {
-    console.log(data)
-    setSelected(prevSelected => {
-      prevSelected[state] = key
-      return prevSelected
-    })
-    setFinalObject(prev => {
-      prev[data.key] = data.value
+  const [showConfirm, setShowConfirm] = useState(false)
+
+  const [state, setState] = useState(buttonData)
+
+  useEffect(
+    () => setShowConfirm(pagination === maxPage),
+    [pagination]
+  )
+
+  const handleButtonSelect = (data: ButtonData) => {
+    setState(prev => {
+      prev[pagination] = prev[pagination].map(button => button.id === data.id
+        ? {...button, selected: true}
+        : {...button, selected: false})
       return prev
     })
+
+    setFinalObject(prev => {
+      prev[data.data.key] = data.data.value
+      return prev
+    })
+
     setTimeout(() => dispatch(BoardAction.NEXT), 600)
   }
 
   const handleConfirm = () => {
+    setFinalObject(prev => {
+      state.forEach(subState => {
+        subState
+          .filter(data => data.selected == true)
+          .forEach(data => prev[data.data.key] = data.data.value)
+      })
+
+      return prev
+    })
+
     const geo: Geolocation = navigator.geolocation
     geo.getCurrentPosition(position => {
       setFinalObject(prev => {
@@ -126,41 +155,44 @@ export function NewBoard() {
         }
         return prev
       })
+
       console.log(finalObject)
-    }, reset) 
+      updateBoard(props.boardId, finalObject)
+    }, reset)
     // ^^^ reset if the user does not allow geolocation
   }
 
   const reset = () => {
-    setSelected(() => baseButtonsState)
+    setState(buttonData)
     dispatch(BoardAction.RESET)
   }
 
   return (
     <>
-      <h1 class="my-16 <md:mb-12 font-bold text-3xl">{titles[state]}</h1>
+      <h1 class="my-16 <md:mb-12 font-bold text-3xl">{titles[pagination]}</h1>
       <div className="container mx-auto px-4 <md:grid <md:grid-cols-2 <md:gap-4 justify-items-center">
-        {buttons[state].map((data, index) => {
-          const key: string = `${state}_${index}`
-          return <IconButton data={data} key={key} buttonId={key} selected={selected[state] === key} onButtonSelected={handleButtonSelect} />
+        {state[pagination].map(data => {
+          return <IconButton
+            name={data.name}
+            key={data.id}
+            selected={data.selected}
+            onClick={() => handleButtonSelect(data)} />
         })}
       </div>
-      <div class="mt-16 container mx-auto grid grid-cols-2 grid-rows-2 gap-4 md:px-128 <md:px-16">
-        {(state == maxPage) &&
-          <button 
-            className={`
-              col-span-full px-6 py-2 font-medium text-sm bg-blue-600 hover:bg-blue-500 text-light-200 rounded
-              ${(selected.find(s => s === "")) && "invisible"}
+      <div class="mt-16 container mx-auto grid grid-cols-3 grid-rows-2 gap-4 md:px-128 <md:px-16">
+        <button
+          className={`
+              col-span-full px-6 py-2 font-medium text-sm rounded
+              ${showConfirm ? "bg-blue-600 hover:bg-blue-500 text-light-200" : "invisible"}
             `}
-            onClick={handleConfirm}
-          >
-            Conferma
-          </button>
-        }
+          onClick={handleConfirm}
+        >
+          Conferma
+        </button>
         <button
           className={`
             px-6 py-2 font-medium text-sm bg-light-400 hover:bg-light-500 text-red-600 rounded
-            ${state === 0 ? "invisible" : ""}
+            ${pagination === 0 ? "invisible" : ""}
           `}
           title="Back"
           onClick={() => dispatch(BoardAction.BACK)}
@@ -173,6 +205,16 @@ export function NewBoard() {
           onClick={reset}
         >
           <IconBackspace />
+        </button>
+        <button
+          className={`
+            px-6 py-2 font-medium text-sm bg-light-400 hover:bg-light-500 rounded
+            ${pagination === maxPage ? "invisible" : ""}
+          `}
+          title="Skip"
+          onClick={() => dispatch(BoardAction.NEXT)}
+        >
+          <IconChevronRight />
         </button>
       </div>
     </>
