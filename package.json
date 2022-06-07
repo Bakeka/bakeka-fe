@@ -1,0 +1,32 @@
+{
+  "name": "bakeka-frontend",
+  "private": true,
+  "version": "2.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tabler/icons": "^1.68.0",
+    "axios": "^0.27.2",
+    "leaflet": "^1.8.0",
+    "leaflet-geosearch": "^3.6.1",
+    "preact": "^10.7.3",
+    "preact-render-to-string": "^5.2.0",
+    "pretty-checkbox": "^3.0.3",
+    "pretty-checkbox-react": "^3.2.0",
+    "react-leaflet": "^4.0.0",
+    "react-leaflet-custom-control": "1.2.6",
+    "wouter-preact": "^2.8.0-alpha.2"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.2.0",
+    "@types/leaflet": "^1.7.10",
+    "@windicss/plugin-animations": "^1.0.9",
+    "typescript": "^4.7.3",
+    "vite": "^2.9.10",
+    "vite-plugin-windicss": "^1.8.4",
+    "windicss": "^3.5.4"
+  }
+}
