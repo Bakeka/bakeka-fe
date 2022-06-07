@@ -1,6 +1,6 @@
 FROM node:18-alpine as builder
 WORKDIR /bakeka
-COPY ./frontend .
+COPY . .
 RUN yarn && yarn build
 
 FROM caddy:2-alpine
